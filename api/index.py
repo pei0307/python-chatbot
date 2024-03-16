@@ -43,15 +43,12 @@ def handle_message(event):
     if event.message.text == "每日抽牌":
         working_status = True
         card = draw_tarot_card()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="你抽到的是：" + card + "，跟我分享抽到這張牌的想法吧～"))
         chatgpt.add_msg(f"HUMAN:今日塔羅抽牌，我抽到{card}，你覺得我今天可以覺察或感受些什麼呢\n")
         reply_msg = chatgpt.get_response().replace("AI:", "", 1)
         chatgpt.add_msg(f"AI:{reply_msg}\n")
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=reply_msg))
+            TextSendMessage(text="你抽到的是：" + card + "，"+reply_msg+"，跟我分享抽到這張牌的想法吧～"))
         return
 
     if event.message.text == "說話":
